@@ -1,0 +1,55 @@
+html, body {
+  background-color: rgb(130,130,130);
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+
+#container {
+  background-color: #FFF;
+  width: 800px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-right:60px;
+  padding-left: 60px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#buttons, #fileInputs{
+  overflow: hidden;
+  padding:10px 24px;
+  border:1px;
+  background-color: rgb(200,80,60);
+}
+
+#fileInputsPicture {
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+#generate {
+  float: left;
+}
+
+#reset {
+  float: right;
+}
+
+#moveVertices {
+  float: right;
+}
+
+#zIndex {
+  float: right;
+  margin-top: 3px;
+  margin-bottom: 0px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#output {
+  margin: 10px;
+}
