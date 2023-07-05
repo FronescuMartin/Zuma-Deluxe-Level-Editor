@@ -36,19 +36,15 @@ function setup() {
   fileInputsDom = document.getElementById("fileInputsPicture");
   imageInput = createFileInput(handleInput);
   imageInput.parent(fileInputsDom);
-  //console.log(imageInput);
   gameX = (width - gameWidth) / 2;
   gameY = (height - gameHeight) / 2;
-  //console.log(gameX, gameY);
 
-  //scale(1, -1);
   canvas.parent("sketch");
   renderButtons();
   textBox();
 }
 
 function draw() {
-  //translate(gameX, gameY);
   background(220);
 
   if (img) {
@@ -87,16 +83,12 @@ function draw() {
   pop();
   for (let v of vertices) {
     v.display();
-    //v.dragging = false;
   }
-  //console.log(mouseX, mouseY);
-  //console.log(vertices);
   text(`x: ${round(mouseX - gameX)}\ny: ${round(mouseY - gameY)}`, 700, 20);
 }
 
 function mouseDragged() {
   if (moving) {
-    //console.log("o");
     for (let i = 0; i < vertices.length; i++) {
       if (
         dist(mouseX, mouseY, vertices[i].x + gameX, vertices[i].y + gameY) <=
@@ -156,21 +148,14 @@ function generateCode() {
     let str = "";
     for (let i = 0; i < vertices.length - 1; i++) {
       let v = getNewCoord(vertices[i], vertices[i + 1]);
-      //console.log(v.x, v.y);
-      //console.log(convert(v.x), convert(v.y));
       let factor = getFactor(vertices[i], vertices[i + 1]);
-      //console.log(factor);
       for (let j = 0; j < round(factor); j++) {
         str += `${convert(v.x)} ${convert(v.y)} `;
-        //console.log(vertices[i])
-        //console.log(vertices[i].state);
         str += tunnelChar[vertices[i].state];
         pathLength++;
-        //console.log("hey");
       }
     }
-    pathLength++; //idk why
-    //str+='\n\n';
+    pathLength++; 
     
     let headerString=generateHeader();
     let headerLen=headerString.length+2;
@@ -202,21 +187,15 @@ function generateCode() {
     console.log("length: ", newPathHex);
     header += newPathHex + " "; //LENGTH OF PATH
     header += "00 00 ";
-    //str+="Path length: "+newPathHex;
-    //str+='\n\n';
     let startx = convertFloatToHex(vertices[0].x);
     let starty = convertFloatToHex(vertices[0].y);
     console.log("starting point: ", startx, starty);
-    //console.log(vertices[0]);
-    //str+="Starting point: "+startx+' '+starty;
     header += startx + " " + starty + " "; //STARTING POINT
     header += "00 00 ";
     header += str; //DELTAS
     textarea.innerHTML = header;
-    //downloading file
     const downloadButton = document.querySelector("#downloadButton");
     let hexBytes = generateCleanStrings();
-    //console.log("hexBytes", hexBytes);
     let bufferSize = hexBytes.length * 4;
     let buf = new ArrayBuffer(bufferSize);
     let dw = new DataView(buf);
@@ -252,14 +231,11 @@ function convertLength(pathHex) {
   } else if (pathHex.length == 2) {
     newStr += pathHex + " 00";
   } else if (pathHex.length == 3) {
-    //let temp=pathHex[0];
     newStr += pathHex[1];
     newStr += pathHex[2];
-    //pathHex.slice(0,-1);
     newStr += " ";
     newStr += 0;
     newStr += pathHex[0];
-    //console.log(pathHex.length);
   } else if (pathHex.length == 4) {
     newStr += pathHex[2];
     newStr += pathHex[3];
@@ -271,14 +247,11 @@ function convertLength(pathHex) {
 }
 
 function convert(x) {
-  //returns string
-  //console.log(x);
   let str;
   if (x >= 0) {
     str = Math.round(x).toString(16); //convert x
   }
   if (x < 0) {
-    //str=(Math.round(map(x, -100, 0, 156, 255))).toString(16);
     str = Math.round(x + 256).toString(16);
   }
   if (str.length < 2) {
@@ -289,19 +262,10 @@ function convert(x) {
 
 function textBox() {
   textarea = document.getElementById("output");
-  //textarea.innerHTML = "Press generate";
-  //textarea.cols = width / 8;
-  //textarea.rows = width / 15;
-  //document.body.appendChild(textarea);
-  //textarea.attribute = "readonly";
-  //textarea.readOnly = true;
 }
 
 function renderButtons() {
   generate = document.getElementById("generate");
-  //generate.innerHTML = "Generate";
-  //document.body.appendChild(generate);
-  //generate.style.float = "left";
   generate.onclick = generateCode;
   generateJson = document.getElementById("generateJson");
   generateJson.onclick = () => {
@@ -310,19 +274,13 @@ function renderButtons() {
   inputBox = document.getElementById("textBox");
   btn = document.getElementById("input");
   btn.onclick = inputVertices;
-  //console.log(btn);
   reset = document.getElementById("reset");
-  //reset.innerHTML = "Reset Vertices";
-  //document.body.appendChild(reset);
-  //reset.style.float = "right";
   reset.onclick = () => {
     vertices = [];
     pathLength = 0;
     initHeader();
   };
   moveVertices = document.getElementById("moveVertices");
-  //moveVertices.innerHTML = "Move Vertices";
-  //moveVertices.style.float = "right";
   moveVertices.onclick = () => {
     moving = !moving;
     if (moving) {
@@ -332,8 +290,6 @@ function renderButtons() {
     }
   };
   deleteVertices = document.getElementById("deleteVertices");
-  //moveVertices.innerHTML = "Move Vertices";
-  //moveVertices.style.float = "right";
   deleteVertices.onclick = () => {
     deleting = !deleting;
     if (deleting) {
@@ -344,17 +300,13 @@ function renderButtons() {
   };
   document.getElementById("zIndex");
   zIndex.innerHTML = `Z Index is ${tunnelState}`;
-  //document.body.appendChild(moveVertices);
 }
 
 function inputVertices() {
-  //vertices = [];
   str = inputBox.value;
   if (str) {
-    //str = str.replace(/-/g, "");
-    //str = str.replace(/v /g, '');
+
     strings = str.split("\n");
-    //console.log(strings);
     for (let i = 0; i < strings.length; i++) {
       let a = strings[i].split(" ");
       strings[i] = a;
@@ -380,10 +332,6 @@ function getFactor(v1, v2) {
 }
 
 function getNewCoord(v1, v2) {
-  //v1-=gameX;
-  //v2-=gameY;
-  //console.log(gameX, gameY);
-
   let factor = 100 / getFactor(v1, v2);
   let x = factor * (v2.x - v1.x);
   let y = factor * (v2.y - v1.y);
@@ -482,9 +430,6 @@ function pathInput() {
     }
     reader.onload = function (e) {
       if (file.name.split(".").pop() === "dat") {
-        //textarea.innerHTML="Please Input a JSON File";
-        //return false;
-        //.dat files reading soon maybe
         let arrayBuffer = new Uint8Array(reader.result);
         console.log(arrayBuffer);
         doStuff(arrayBuffer);
@@ -509,17 +454,13 @@ function pathInput() {
   function doStuff(buffer) {
     qualityArray = [];
     for (let i in buffer) {
-      //buffer[i]=buffer[i].toString(16);
       qualityArray.push(buffer[i].toString(16));
     }
     qualityArray = qualityArray.map((x) => (x.length < 2 ? "0" + x : x));
-    //console.log(qualityArray);
-    //handle input
     console.log(buffer);
     console.log(qualityArray);
     signatureLength = parseInt(
       qualityArray[13].toString() +
-        //(parseInt(qualityArray[12], 16) < 16 ? "0" : "") +
         qualityArray[12].toString(),
       16
     );
@@ -564,10 +505,6 @@ function hexToDec(string) {
   let x = parseInt(string, 16);
   return x > 127 ? x - 256 : x;
 }
-
-//const array = ["apple", "orange", "banana"]
-
-//console.log(json);
 
 function asciiToHex(str) {
   let arr = [];
@@ -618,8 +555,3 @@ function generateHeader(){
 }
 
 
-/* for later reversing
-let arr=generateHeader().split(";")
-for(let i of arr){
-    i=i.split(",");
-}*/

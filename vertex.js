@@ -6,7 +6,6 @@ class Vertex {
     
     this.state = state;
     this.dragging = false;
-    //console.log(this.x, this.y);
     this.selected=false;
   }
 
